@@ -1,38 +1,23 @@
 const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
+const { typeDefs } = require('./schema');
+const { resolvers } = require('./resolvers');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-//import ApolloServer
 
-
-//Store sensitive information to env variables
-const dotenv = require('dotenv');
-dotenv.config();
-
-//mongoDB Atlas Connection String
-const mongodb_atlas_url = process.env.MONGODB_URL;
-
-//TODO - Replace you Connection String here
-mongoose.connect(mongodb_atlas_url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(success => {
-  console.log('Success Mongodb connection')
-}).catch(err => {
-  console.log('Error Mongodb connection')
-});
-
-//Define Apollo Server
-
-
-//Define Express Server
 const app = express();
-app.use(bodyParser.json());
-app.use('*', cors());
 
-//Add Express app as middleware to Apollo Server
+const server = new ApolloServer({ typeDefs, resolvers });
 
+server.applyMiddleware({ app });
+MONGODB_URL='mongodb+srv://maoe1:google123@cluster0.mtvhcjr.mongodb.net/comp3133_assignment1?retryWrites=true&w=majority'
+console.log(server.graphqlPath)
 
-//Start listen 
-app.listen({ port: process.env.PORT }, () =>
-  console.log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`));
+mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB');
+    app.listen({ port: 4000 }, () =>
+      console.log(`Server ready at http://localhost:4000${server.graphqlPath}`)
+      
+    );
+  })
+  .catch(err => console.error(err));
