@@ -5,6 +5,7 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: true,
+    unique: true,
     validate: [
       (username) => username.length >= 4,
       'Username must have at least 4 characters'
