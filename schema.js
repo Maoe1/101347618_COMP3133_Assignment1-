@@ -10,11 +10,14 @@ type User {
 
 type Query {
   hello: String
+  login(username: String!, password: String!): String
 }
 
 type Mutation {
   signup(username: String!, email: String!, password: String!): User!
 }
+
+
 `;
 
 module.exports = { typeDefs };

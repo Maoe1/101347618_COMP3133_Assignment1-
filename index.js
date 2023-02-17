@@ -6,7 +6,16 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-const server = new ApolloServer({ typeDefs, resolvers });
+process.env.JWT_SECRET = 'mysecretkey';
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => {
+    const db = mongoose.connection.db;
+    return { db };
+  },
+});
 
 server.applyMiddleware({ app });
 MONGODB_URL='mongodb+srv://maoe1:google123@cluster0.mtvhcjr.mongodb.net/comp3133_assignment1?retryWrites=true&w=majority'
