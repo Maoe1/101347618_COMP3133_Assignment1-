@@ -21,7 +21,10 @@ server.applyMiddleware({ app });
 MONGODB_URL='mongodb+srv://maoe1:google123@cluster0.mtvhcjr.mongodb.net/comp3133_assignment1?retryWrites=true&w=majority'
 console.log(server.graphqlPath)
 
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URL, { useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+ })
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen({ port: 4000 }, () =>
